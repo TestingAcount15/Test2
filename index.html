@@ -46,8 +46,11 @@
             text-align: center;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         }
+        .modal button[data-active="false"] {
+            display: none;
+        }
         .modal button {
-            background: linear-gradient(90deg, #2563eb, #9333ea);
+            background: linear-gradient(90deg, #3b82f6, #10b981);
             color: white;
             padding: 0.8rem 1.2rem;
             margin: 0.5rem 0;
@@ -59,7 +62,7 @@
         }
         .modal button:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 15px #9333ea, 0 0 25px #2563eb;
+            box-shadow: 0 0 15px #10b981, 0 0 25px #3b82f6;
         }
         .page {
             display: none;
@@ -86,7 +89,7 @@
             background: rgba(0, 0, 0, 0.7);
             color: white;
             outline: none;
-            box-shadow: 0 0 10px #2563eb;
+            box-shadow: 0 0 10px #3b82f6;
         }
         textarea {
             height: 120px;
@@ -97,15 +100,11 @@
             background: rgba(0, 0, 0, 0.7);
             color: white;
             position: relative;
-            box-shadow: 0 0 10px #2563eb;
+            box-shadow: 0 0 10px #3b82f6;
             padding-right: 2rem;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='white' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: calc(100% - 10px) center;
-            background-size: 1rem;
         }
         button {
-            background: linear-gradient(90deg, #9333ea, #3b82f6);
+            background: linear-gradient(90deg, #10b981, #3b82f6);
             color: white;
             font-weight: bold;
             cursor: pointer;
@@ -113,7 +112,7 @@
         }
         button:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 15px #9333ea, 0 0 25px #3b82f6;
+            box-shadow: 0 0 15px #10b981, 0 0 25px #3b82f6;
         }
     </style>
 </head>
@@ -125,129 +124,205 @@
             <button data-page="feedback">Feedback / Bug Report</button>
             <button data-page="mod-application">Moderator Application</button>
             <button data-page="partner">Become a Partner</button>
+            <button data-page="exploiter" data-active="true">Report an Exploiter</button>
         </div>
     </div>
 
     <div id="feedback" class="page">
-        <h1>Feedback / Bug Report</h1>
-        <form id="feedback-form">
-            <input type="text" id="discord-username" placeholder="Your Discord Username (e.g., User#1234)" required>
-            <select id="feedback-category" required>
-                <option value="" disabled selected>Select a Category</option>
-                <option value="Bug Report">Bug Report</option>
-                <option value="General Feedback">General Feedback</option>
-                <option value="Suggestion">Suggestion</option>
-                <option value="Performance Issue">Performance Issue</option>
-                <option value="Other">Other</option>
-            </select>
-            <textarea id="feedback-message" maxlength="300" placeholder="Your Feedback (Max: 300 chars)" required></textarea>
-            <button type="submit">Send Feedback</button>
-        </form>
-    </div>
+    <h1>Feedback / Bug Report</h1>
+    <form id="feedback-form">
+        <input type="text" id="discord-username" placeholder="Your Discord Username (e.g., User#1234)" required>
+        <select id="feedback-category" required>
+            <option value="" disabled selected>Select a Category</option>
+            <option value="Bug Report">Bug Report</option>
+            <option value="General Feedback">General Feedback</option>
+            <option value="Suggestion">Suggestion</option>
+            <option value="Performance Issue">Performance Issue</option>
+            <option value="Other">Other</option>
+        </select>
+        <textarea id="feedback-message" maxlength="300" placeholder="Your Feedback (Max: 300 chars)" required></textarea>
+        <button type="submit">Send Feedback</button>
+    </form>
+</div>
 
     <div id="mod-application" class="page">
-        <h1>Moderator Application</h1>
-        <form id="mod-application-form">
-            <input type="text" id="mod-username" placeholder="Your Discord Username (e.g., User#1234)" required>
-            <textarea id="mod-reason" placeholder="Why do you want to become a moderator?" maxlength="500" required></textarea>
-            <textarea id="mod-experience" placeholder="Do you have any prior moderation experience?" maxlength="500" required></textarea>
-            <button type="submit">Submit Application</button>
-        </form>
-    </div>
+    <h1>Moderator Application</h1>
+    <form id="mod-application-form">
+        <input type="text" id="mod-username" placeholder="Your Discord Username (e.g., User#1234)" required>
+        <textarea id="mod-reason" placeholder="Why do you want to become a moderator?" maxlength="500" required></textarea>
+        <textarea id="mod-experience" placeholder="Do you have any prior moderation experience?" maxlength="500" required></textarea>
+        <textarea id="mod-availability" placeholder="What is your daily availability (hours)?" maxlength="500" required></textarea>
+        <textarea id="mod-extra" placeholder="Anything else you'd like us to know?" maxlength="500" required></textarea>
+        <button type="submit">Submit Application</button>
+    </form>
+</div>
 
     <div id="partner" class="page">
-        <h1>Partnership Application</h1>
-        <form id="partner-form">
-            <input type="text" id="partner-username" placeholder="Your YouTube Channel Name" required>
-            <input type="text" id="partner-link" placeholder="Your Channel Link" required>
-            <input type="number" id="partner-subs" placeholder="Your Subscriber Count" required>
-            <textarea id="partner-reason" placeholder="Why do you want to partner with us?" maxlength="500" required></textarea>
-            <button type="submit">Submit Application</button>
-        </form>
-    </div>
+    <h1>Partnership Application</h1>
+    <form id="partner-form">
+        <input type="text" id="partner-username" placeholder="Your YouTube Channel Name" required>
+        <input type="url" id="partner-link" placeholder="Your Channel Link" required>
+        <input type="number" id="partner-subs" placeholder="Your Subscriber Count" required>
+        <textarea id="partner-reason" placeholder="Why do you want to partner with us?" maxlength="500" required></textarea>
+        <textarea id="partner-extra" placeholder="Anything else you'd like us to know?" maxlength="500"></textarea>
+        <button type="submit">Submit Application</button>
+    </form>
+</div>
+
+<div id="exploiter" class="page">
+    <h1>Report an Exploiter</h1>
+    <form id="exploiter-form">
+        <input type="text" id="exploiter-username" placeholder="Exploiter's Username (if known)" required>
+        <textarea id="exploiter-description" placeholder="Describe the exploit or suspicious activity" maxlength="500" required></textarea>
+        <textarea id="evidence-link" placeholder="Provide a link to evidence (if available)" maxlength="500" required></textarea>
+        <input type="text" id="reporter-username" placeholder="Your Discord Username (e.g., User#1234)" required>
+        <button type="submit">Submit Report</button>
+    </form>
+</div>
 
     <script>
-        const modal = document.querySelector('.modal');
-        const modalButtons = document.querySelectorAll('.modal button');
-        const pages = document.querySelectorAll('.page');
+    const modal = document.querySelector('.modal');
+    const modalButtons = document.querySelectorAll('.modal button');
+    const pages = document.querySelectorAll('.page');
 
-        modalButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const targetPage = document.getElementById(button.dataset.page);
-                modal.style.display = 'none';
-                pages.forEach(page => page.classList.remove('active'));
-                targetPage.classList.add('active');
+    modalButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetPage = document.getElementById(button.dataset.page);
+            if (!targetPage) return;
+            modal.style.display = 'none';
+            pages.forEach(page => page.classList.remove('active'));
+            targetPage.classList.add('active');
+        });
+    });
+
+    function showPopup(message, callback) {
+        const popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.background = '#1e293b';
+        popup.style.padding = '2rem';
+        popup.style.borderRadius = '12px';
+        popup.style.textAlign = 'center';
+        popup.style.color = 'white';
+        popup.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.5)';
+        popup.innerHTML = `
+            <p>${message}</p>
+            <button style="
+                background: linear-gradient(90deg, #3b82f6, #10b981);
+                color: white;
+                border: none;
+                padding: 0.8rem 1.2rem;
+                border-radius: 8px;
+                font-size: 1rem;
+                cursor: pointer;
+                margin-top: 1rem;
+            ">OK</button>
+        `;
+        document.body.appendChild(popup);
+
+        popup.querySelector('button').addEventListener('click', () => {
+            document.body.removeChild(popup);
+            callback();
+        });
+    }
+
+    async function sendToWebhook(url, data, successMessage) {
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
             });
-        });
-
-        async function sendToWebhook(url, data) {
-            try {
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                });
-                if (!response.ok) throw new Error("Failed to send.");
-                alert("Submitted successfully!");
-            } catch (error) {
-                alert("Submission failed. Please try again.");
-            }
+            if (!response.ok) throw new Error("Failed to send.");
+            showPopup(successMessage, () => {
+                pages.forEach(page => page.classList.remove('active'));
+                modal.style.display = 'flex';
+            });
+        } catch (error) {
+            alert("Submission failed. Please try again.");
         }
+    }
 
-        document.getElementById('feedback-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const payload = {
-                embeds: [{
-                    title: "Feedback / Bug Report",
-                    fields: [
-                        { name: "Username", value: document.getElementById('discord-username').value, inline: true },
-                        { name: "Category", value: document.getElementById('feedback-category').value, inline: true },
-                        { name: "Message", value: document.getElementById('feedback-message').value, inline: false },
-                    ],
-                }]
-            };
-            sendToWebhook(
-                "https://discord.com/api/webhooks/1312835355283554366/JSozzh_p0s7xK50cbjTnfoUV5rRNr3YDH43rd8W0c50MSgG934eA-rEkw4-NxzvlLrFu",
-                payload
-            );
-        });
+    document.getElementById('feedback-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const payload = {
+            embeds: [{
+                title: "Feedback / Bug Report",
+                fields: [
+                    { name: "Username", value: document.getElementById('discord-username').value, inline: true },
+                    { name: "Category", value: document.getElementById('feedback-category').value, inline: true },
+                    { name: "Message", value: document.getElementById('feedback-message').value, inline: false },
+                ],
+            }]
+        };
+        sendToWebhook(
+            "https://discord.com/api/webhooks/1312835355283554366/JSozzh_p0s7xK50cbjTnfoUV5rRNr3YDH43rd8W0c50MSgG934eA-rEkw4-NxzvlLrFu",
+            payload,
+            "Thank you for your feedback!"
+        );
+    });
 
-        document.getElementById('mod-application-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const payload = {
-                embeds: [{
-                    title: "Moderator Application",
-                    fields: [
-                        { name: "Username", value: document.getElementById('mod-username').value, inline: true },
-                        { name: "Reason", value: document.getElementById('mod-reason').value, inline: false },
-                        { name: "Experience", value: document.getElementById('mod-experience').value, inline: false },
-                    ],
-                }]
-            };
-            sendToWebhook(
-                "https://discord.com/api/webhooks/1312847119245377637/Dl1FvdPzbrUuU7DYDFIwSsFwF-AIEFpO1kNNQG_D6sAmNh7UW5vMgEUETDamZsZZWN8P",
-                payload
-            );
-        });
+    document.getElementById('mod-application-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const payload = {
+            embeds: [{
+                title: "Moderator Application",
+                fields: [
+                    { name: "Username", value: document.getElementById('mod-username').value, inline: true },
+                    { name: "Reason", value: document.getElementById('mod-reason').value, inline: false },
+                    { name: "Experience", value: document.getElementById('mod-experience').value, inline: false },
+                    { name: "Availability", value: document.getElementById('mod-availability').value, inline: false },
+                    { name: "Extra", value: document.getElementById('mod-extra').value, inline: false },
+                ],
+            }]
+        };
+        sendToWebhook(
+            "https://discord.com/api/webhooks/1312847119245377637/Dl1FvdPzbrUuU7DYDFIwSsFwF-AIEFpO1kNNQG_D6sAmNh7UW5vMgEUETDamZsZZWN8P",
+            payload,
+            "Thank you for your application!"
+        );
+    });
 
-        document.getElementById('partner-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const payload = {
-                embeds: [{
-                    title: "Partnership Application",
-                    fields: [
-                        { name: "Channel Name", value: document.getElementById('partner-username').value, inline: true },
-                        { name: "Channel Link", value: document.getElementById('partner-link').value, inline: true },
-                        { name: "Subscriber Count", value: document.getElementById('partner-subs').value, inline: true },
-                        { name: "Reason", value: document.getElementById('partner-reason').value, inline: false },
-                    ],
-                }]
-            };
-            sendToWebhook(
-                "https://discord.com/api/webhooks/1312847056146268180/y0Zi1Oc_P793X2u3u41KYkEbJhHieo612aI9gIGTSwucbJjvCOVjvQHhwXcFuW6H5H6c",
-                payload
-            );
-        });
-    </script>
-</body>
-</html>
+    document.getElementById('exploiter-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const payload = {
+            embeds: [{
+                title: "Exploiter Report",
+                fields: [
+                    { name: "Exploiter Username", value: document.getElementById('exploiter-username').value, inline: true },
+                    { name: "Description", value: document.getElementById('exploiter-description').value, inline: false },
+                    { name: "Evidence Link", value: document.getElementById('evidence-link').value, inline: false },
+                    { name: "Reporter Username", value: document.getElementById('reporter-username').value, inline: true },
+                ],
+            }]
+        };
+        sendToWebhook(
+            "https://discord.com/api/webhooks/1312850050568945725/UjTPazdXdgSmWOTX96zuCQvB--AbmFAecTe20e11mCWDuL8JbLTFjkrYOlucA_g9d7m-",
+            payload,
+            "Thank you for your report!"
+        );
+    });
+
+document.getElementById('partner-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const payload = {
+        embeds: [{
+            title: "Partnership Application",
+            fields: [
+                { name: "Channel Name", value: document.getElementById('partner-username').value, inline: true },
+                { name: "Channel Link", value: document.getElementById('partner-link').value, inline: true },
+                { name: "Subscriber Count", value: document.getElementById('partner-subs').value, inline: true },
+                { name: "Reason", value: document.getElementById('partner-reason').value, inline: false },
+                { name: "Extra Information", value: document.getElementById('partner-extra').value || "N/A", inline: false },
+            ],
+        }]
+    };
+    sendToWebhook(
+        "https://discord.com/api/webhooks/1312847056146268180/y0Zi1Oc_P793X2u3u41KYkEbJhHieo612aI9gIGTSwucbJjvCOVjvQHhwXcFuW6H5H6c",
+        payload,
+        "Thank you for your partnership application!"
+    );
+});
+</script>
