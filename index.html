@@ -5,48 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback for Isle</title>
     <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #00296b, #00a5cf);
+            font-family: 'Poppins', Arial, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(-45deg, #00296b, #00a5cf, #005f99, #0096c7);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
             color: white;
-            text-align: center;
-            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header Styles */
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
         }
+
+        /* Form Container */
         form {
-            margin: auto;
-            width: 80%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
             max-width: 500px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 1.5rem;
-            border-radius: 8px;
+            animation: fadeIn 1s ease-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input & Button Styling */
         input, textarea, button {
             width: 100%;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
+            padding: 0.9rem;
+            margin-bottom: 1.5rem;
+            border-radius: 6px;
             border: none;
-            border-radius: 4px;
+            font-size: 1rem;
         }
+
+        input, textarea {
+            background: #00296b;
+            color: white;
+            outline: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
         textarea {
-            height: 100px;
+            height: 120px;
             resize: none;
         }
+
         button {
             background: #0077b6;
             color: white;
-            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
+
         button:hover {
             background: #00b4d8;
+            transform: scale(1.05);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
         }
+
+        /* Feedback Message Styling */
         .success, .error {
+            display: none;
+            font-size: 1.1rem;
             margin-top: 1rem;
-            font-size: 1rem;
+            text-align: center;
+        }
+
+        .success {
+            color: #4caf50;
+            animation: bounce 1s infinite;
+        }
+
+        .error {
+            color: #f44336;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Footer Animation */
+        footer {
+            margin-top: 2rem;
+            color: #ccc;
+            font-size: 0.9rem;
+            animation: slideUp 1.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -56,45 +135,46 @@
         <input type="text" id="username" placeholder="Your Name" required>
         <textarea id="feedback" placeholder="Your Feedback" required></textarea>
         <button type="submit">Send Feedback</button>
-        <p class="success" style="display: none; color: #4caf50;">Feedback sent successfully!</p>
-        <p class="error" style="display: none; color: #f44336;">Failed to send feedback. Try again later.</p>
+        <p class="success">Feedback sent successfully! 🎉</p>
+        <p class="error">Failed to send feedback. Try again later.</p>
     </form>
-</body>
-<script>
-    document.getElementById('feedback-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
+    <footer>&copy; 2024 Isle Feedback. All Rights Reserved.</footer>
+    <script>
+        document.getElementById('feedback-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        const username = document.getElementById('username').value.trim();
-        const feedback = document.getElementById('feedback').value.trim();
-        const webhookUrl = "https://discord.com/api/webhooks/1312835355283554366/JSozzh_p0s7xK50cbjTnfoUV5rRNr3YDH43rd8W0c50MSgG934eA-rEkw4-NxzvlLrFu";
+            const username = document.getElementById('username').value.trim();
+            const feedback = document.getElementById('feedback').value.trim();
+            const webhookUrl = "https://discord.com/api/webhooks/1312835355283554366/JSozzh_p0s7xK50cbjTnfoUV5rRNr3YDH43rd8W0c50MSgG934eA-rEkw4-NxzvlLrFu";
 
-        if (!username || !feedback) {
-            alert("Please fill out all fields.");
-            return;
-        }
-
-        const payload = {
-            content: `**Feedback Received:**\n**Name:** ${username}\n**Feedback:** ${feedback}`,
-        };
-
-        try {
-            const response = await fetch(webhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
-                document.querySelector('.success').style.display = "block";
-                document.querySelector('.error').style.display = "none";
-                document.getElementById('feedback-form').reset();
-            } else {
-                throw new Error("Failed to send feedback.");
+            if (!username || !feedback) {
+                alert("Please fill out all fields.");
+                return;
             }
-        } catch (error) {
-            document.querySelector('.error').style.display = "block";
-            document.querySelector('.success').style.display = "none";
-        }
-    });
-</script>
+
+            const payload = {
+                content: `**Feedback Received:**\n**Name:** ${username}\n**Feedback:** ${feedback}`,
+            };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    document.querySelector('.success').style.display = "block";
+                    document.querySelector('.error').style.display = "none";
+                    document.getElementById('feedback-form').reset();
+                } else {
+                    throw new Error("Failed to send feedback.");
+                }
+            } catch (error) {
+                document.querySelector('.error').style.display = "block";
+                document.querySelector('.success').style.display = "none";
+            }
+        });
+    </script>
+</body>
 </html>
