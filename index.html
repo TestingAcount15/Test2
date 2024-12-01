@@ -36,15 +36,6 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
         }
         .modal-content {
             background: #1e293b;
@@ -54,6 +45,9 @@
             max-width: 500px;
             text-align: center;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        .modal button[data-active="false"] {
+            display: none;
         }
         .modal button {
             background: linear-gradient(90deg, #3b82f6, #10b981);
@@ -101,6 +95,14 @@
             height: 120px;
             resize: none;
         }
+        select {
+            appearance: none;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            position: relative;
+            box-shadow: 0 0 10px #3b82f6;
+            padding-right: 2rem;
+        }
         button {
             background: linear-gradient(90deg, #10b981, #3b82f6);
             color: white;
@@ -112,47 +114,6 @@
             transform: scale(1.05);
             box-shadow: 0 0 15px #10b981, 0 0 25px #3b82f6;
         }
-        .character-counter {
-            font-size: 0.9rem;
-            color: #aaa;
-            text-align: right;
-            margin-bottom: 0.5rem;
-        }
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-        .dropdown .dropdown-selected {
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            box-shadow: 0 0 10px #3b82f6;
-        }
-        .dropdown-options {
-            display: none;
-            position: absolute;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #3b82f6;
-            margin-top: 0.5rem;
-            z-index: 1000;
-        }
-        .dropdown-options div {
-            padding: 0.8rem 1rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .dropdown-options div:hover {
-            background: rgba(59, 130, 246, 0.7);
-        }
-        .dropdown.active .dropdown-options {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -163,28 +124,26 @@
             <button data-page="feedback">Feedback / Bug Report</button>
             <button data-page="mod-application">Moderator Application</button>
             <button data-page="partner">Become a Partner</button>
-            <button data-page="exploiter">Report an Exploiter</button>
+            <button data-page="exploiter" data-active="true">Report an Exploiter</button>
         </div>
     </div>
+
     <div id="feedback" class="page">
-        <h1>Feedback / Bug Report</h1>
-        <form id="feedback-form">
-            <input type="text" id="discord-username" placeholder="Your Discord Username (e.g., User#1234)" required>
-            <div class="dropdown" id="feedback-category-dropdown">
-                <div class="dropdown-selected">Select a Category</div>
-                <div class="dropdown-options">
-                    <div data-value="Bug Report">Bug Report</div>
-                    <div data-value="General Feedback">General Feedback</div>
-                    <div data-value="Suggestion">Suggestion</div>
-                    <div data-value="Performance Issue">Performance Issue</div>
-                    <div data-value="Other">Other</div>
-                </div>
-            </div>
-            <textarea id="feedback-message" maxlength="300" placeholder="Your Feedback (Max: 300 chars)" required></textarea>
-            <div class="character-counter" id="feedback-counter">0 / 300</div>
-            <button type="submit">Send Feedback</button>
-        </form>
-    </div>
+    <h1>Feedback / Bug Report</h1>
+    <form id="feedback-form">
+        <input type="text" id="discord-username" placeholder="Your Discord Username (e.g., User#1234)" required>
+        <select id="feedback-category" required>
+            <option value="" disabled selected>Select a Category</option>
+            <option value="Bug Report">Bug Report</option>
+            <option value="General Feedback">General Feedback</option>
+            <option value="Suggestion">Suggestion</option>
+            <option value="Performance Issue">Performance Issue</option>
+            <option value="Other">Other</option>
+        </select>
+        <textarea id="feedback-message" maxlength="300" placeholder="Your Feedback (Max: 300 chars)" required></textarea>
+        <button type="submit">Send Feedback</button>
+    </form>
+</div>
 
     <div id="mod-application" class="page">
     <h1>Moderator Application</h1>
@@ -248,7 +207,7 @@
         popup.style.textAlign = 'center';
         popup.style.color = 'white';
         popup.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.5)';
-        popup.innerHTML = `
+        popup.innerHTML = 
             <p>${message}</p>
             <button style="
                 background: linear-gradient(90deg, #3b82f6, #10b981);
@@ -260,7 +219,7 @@
                 cursor: pointer;
                 margin-top: 1rem;
             ">OK</button>
-        `;
+        ;
         document.body.appendChild(popup);
 
         popup.querySelector('button').addEventListener('click', () => {
@@ -366,28 +325,4 @@ document.getElementById('partner-form').addEventListener('submit', (e) => {
         "Thank you for your partnership application!"
     );
 });
-
-                document.querySelectorAll('.dropdown').forEach(dropdown => {
-            const selected = dropdown.querySelector('.dropdown-selected');
-            const options = dropdown.querySelector('.dropdown-options');
-
-            selected.addEventListener('click', () => {
-                dropdown.classList.toggle('active');
-            });
-
-            options.querySelectorAll('div').forEach(option => {
-                option.addEventListener('click', () => {
-                    selected.textContent = option.textContent;
-                    selected.dataset.value = option.dataset.value;
-                    dropdown.classList.remove('active');
-                });
-            });
-        });
-
-        document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
-            const counter = textarea.nextElementSibling;
-            textarea.addEventListener('input', () => {
-                counter.textContent = `${textarea.value.length} / ${textarea.maxLength}`;
-            });
-        });
 </script>
