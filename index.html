@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Isle Feedback Portal</title>
     <style>
+        /* Styles from your original HTML */
         * {
             margin: 0;
             padding: 0;
@@ -106,20 +107,18 @@
     <script>
         const feedbackForm = document.getElementById('feedback-form');
         const feedbackMessage = document.getElementById('feedback-message');
-        const livePreviewText = document.getElementById('live-preview-text');
         const characterCounter = document.querySelector('.character-counter');
         const successMessage = document.querySelector('.success');
         const errorMessage = document.querySelector('.error');
 
-        document.querySelector('.emoji-picker').addEventListener('click', (e) => {
-            if (e.target.tagName === 'SPAN') {
-                feedbackMessage.value += e.target.textContent;
-                feedbackMessage.dispatchEvent(new Event('input'));
-            }
+        feedbackMessage.addEventListener('input', () => {
+            const remaining = 300 - feedbackMessage.value.length;
+            characterCounter.textContent = `${remaining} characters remaining`;
         });
 
-        feedbackForm.addEventListener('submit', (e) => {
+        feedbackForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
             const discordUsername = document.getElementById('discord-username').value.trim();
             const feedbackCategory = document.getElementById('feedback-category').value;
             const feedbackMessageValue = feedbackMessage.value.trim();
@@ -129,22 +128,49 @@
                 return;
             }
 
-            successMessage.textContent = `Thanks for your feedback on "${feedbackCategory}"! 🎉`;
-            successMessage.style.display = "block";
-            errorMessage.style.display = "none";
+            const webhookUrl = "https://discord.com/api/webhooks/1312835355283554366/JSozzh_p0s7xK50cbjTnfoUV5rRNr3YDH43rd8W0c50MSgG934eA-rEkw4-NxzvlLrFu";
 
-            setTimeout(() => {
+            const payload = {
+                embeds: [{
+                    title: "New Feedback Received",
+                    fields: [
+                        { name: "Username", value: discordUsername, inline: true },
+                        { name: "Category", value: feedbackCategory, inline: true },
+                        { name: "Message", value: feedbackMessageValue, inline: false },
+                    ],
+                    color: 5814783
+                }]
+            };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    successMessage.textContent = `Thanks for your feedback on "${feedbackCategory}"! 🎉`;
+                    successMessage.style.display = "block";
+                    errorMessage.style.display = "none";
+                    feedbackForm.reset();
+                    characterCounter.textContent = "300 characters remaining";
+
+                    setTimeout(() => {
+                        successMessage.style.display = "none";
+                    }, 3000);
+                } else {
+                    throw new Error("Failed to send feedback.");
+                }
+            } catch (error) {
+                console.error(error);
                 successMessage.style.display = "none";
-                feedbackForm.reset();
-                livePreviewText.textContent = "Your feedback will appear here...";
-                characterCounter.textContent = "300 characters remaining";
-            }, 3000);
-            
-            console.log({
-                discordUsername,
-                feedbackCategory,
-                feedbackMessage: feedbackMessageValue,
-            });
+                errorMessage.style.display = "block";
+
+                setTimeout(() => {
+                    errorMessage.style.display = "none";
+                }, 3000);
+            }
         });
     </script>
 </body>
