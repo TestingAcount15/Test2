@@ -3,177 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback for Isle</title>
+    <title>Isle Feedback</title>
     <style>
-        /* General Reset */
+        /* General Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        /* Body Styles */
         body {
             font-family: 'Poppins', Arial, sans-serif;
             overflow-x: hidden;
-            background: linear-gradient(-45deg, #00296b, #00a5cf, #005f99, #0096c7);
+            background: linear-gradient(-45deg, #1e3a8a, #2563eb, #1d4ed8, #3b82f6);
             background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
+            animation: gradientBG 8s ease infinite;
             color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
-
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
+            0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
-
-        /* Header Styles */
         h1 {
             font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
             text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
         }
 
-        /* Form Container */
+        /* Form Styles */
         form {
             background: rgba(0, 0, 0, 0.8);
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 500px;
+            width: 95%;
+            max-width: 600px;
             animation: fadeIn 1s ease-out;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Input & Button Styling */
-        input, textarea, button {
+        input, textarea, select, button {
             width: 100%;
-            padding: 0.9rem;
-            margin-bottom: 1.5rem;
-            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+            border-radius: 8px;
             border: none;
             font-size: 1rem;
         }
-
-        input, textarea {
-            background: #00296b;
+        input, textarea, select {
+            background: #1e40af;
             color: white;
             outline: none;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
         }
-
         textarea {
             height: 120px;
             resize: none;
         }
-
+        select {
+            cursor: pointer;
+        }
         button {
-            background: #0077b6;
+            background: #2563eb;
             color: white;
             font-weight: bold;
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
         button:hover {
-            background: #00b4d8;
+            background: #3b82f6;
             transform: scale(1.05);
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* Feedback Message Styling */
+        /* Emoji Picker */
+        .emoji-picker {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .emoji-picker span {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .emoji-picker span:hover {
+            transform: scale(1.2);
+        }
+
+        /* Success and Error Messages */
         .success, .error {
             display: none;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin-top: 1rem;
             text-align: center;
         }
-
         .success {
             color: #4caf50;
             animation: bounce 1s infinite;
         }
-
         .error {
             color: #f44336;
         }
-
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
 
-        /* Footer Animation */
+        /* Footer */
         footer {
             margin-top: 2rem;
             color: #ccc;
             font-size: 0.9rem;
-            animation: slideUp 1.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Send Feedback for Isle</h1>
+    <h1>Isle Feedback Portal</h1>
     <form id="feedback-form">
-        <input type="text" id="username" placeholder="Your Name" required>
-        <textarea id="feedback" placeholder="Your Feedback" required></textarea>
+        <input type="text" id="discord-username" placeholder="Your Discord Username (e.g., User#1234)" required>
+        <select id="feedback-category" required>
+            <option value="" disabled selected>Select a Category</option>
+            <option value="Bug Report">Bug Report</option>
+            <option value="Feature Request">Feature Request</option>
+            <option value="General Feedback">General Feedback</option>
+        </select>
+        <div class="emoji-picker">
+            <span title="Happy">😊</span>
+            <span title="Neutral">😐</span>
+            <span title="Sad">😢</span>
+        </div>
+        <textarea id="feedback-message" placeholder="Your Feedback" required></textarea>
         <button type="submit">Send Feedback</button>
         <p class="success">Feedback sent successfully! 🎉</p>
-        <p class="error">Failed to send feedback. Try again later.</p>
+        <p class="error">Failed to send feedback. Please try again.</p>
     </form>
     <footer>&copy; 2024 Isle Feedback. All Rights Reserved.</footer>
     <script>
+        // Emoji picker functionality
+        const emojiPicker = document.querySelector('.emoji-picker');
+        const feedbackMessage = document.getElementById('feedback-message');
+
+        emojiPicker.addEventListener('click', (e) => {
+            if (e.target.tagName === 'SPAN') {
+                feedbackMessage.value += e.target.textContent;
+            }
+        });
+
+        // Form submission
         document.getElementById('feedback-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const username = document.getElementById('username').value.trim();
-            const feedback = document.getElementById('feedback').value.trim();
-            const webhookUrl = "https://discord.com/api/webhooks/1312835355283554366/JSozzh_p0s7xK50cbjTnfoUV5rRNr3YDH43rd8W0c50MSgG934eA-rEkw4-NxzvlLrFu";
+            const discordUsername = document.getElementById('discord-username').value.trim();
+            const feedbackCategory = document.getElementById('feedback-category').value;
+            const feedbackMessageValue = feedbackMessage.value.trim();
 
-            if (!username || !feedback) {
+            if (!discordUsername || !feedbackCategory || !feedbackMessageValue) {
                 alert("Please fill out all fields.");
                 return;
             }
 
-            const payload = {
-                content: `**Feedback Received:**\n**Name:** ${username}\n**Feedback:** ${feedback}`,
-            };
+            document.querySelector('.success').style.display = "block";
+            document.querySelector('.error').style.display = "none";
 
-            try {
-                const response = await fetch(webhookUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                });
-
-                if (response.ok) {
-                    document.querySelector('.success').style.display = "block";
-                    document.querySelector('.error').style.display = "none";
-                    document.getElementById('feedback-form').reset();
-                } else {
-                    throw new Error("Failed to send feedback.");
-                }
-            } catch (error) {
-                document.querySelector('.error').style.display = "block";
+            setTimeout(() => {
                 document.querySelector('.success').style.display = "none";
-            }
+                document.getElementById('feedback-form').reset();
+            }, 3000);
         });
     </script>
 </body>
