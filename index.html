@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Isle Feedback Portal</title>
     <style>
-        /* Styles from your original HTML */
+        /* Modernized Styles */
         * {
             margin: 0;
             padding: 0;
@@ -14,58 +14,58 @@
         body {
             font-family: 'Poppins', Arial, sans-serif;
             overflow-x: hidden;
-            background: radial-gradient(circle, #0f172a, #1e3a8a, #2563eb, #9333ea);
+            background: linear-gradient(145deg, #2c3e50, #4ca1af);
             color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         h1 {
             font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 20px #3b82f6, 0 0 40px #9333ea;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px #2193b0, 0 0 20px #6dd5ed;
         }
 
         form {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
             width: 95%;
-            max-width: 600px;
-            position: relative;
+            max-width: 650px;
         }
         input, textarea, select, button {
             width: 100%;
             padding: 1rem;
-            margin-bottom: 1.2rem;
-            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
             border: none;
             font-size: 1rem;
         }
         input, textarea, select {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             outline: none;
-            box-shadow: 0 0 10px #2563eb;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         textarea {
-            height: 120px;
+            height: 150px;
             resize: none;
         }
         button {
-            background: linear-gradient(90deg, #9333ea, #3b82f6);
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
             color: white;
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px #9333ea, 0 0 25px #3b82f6;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px #6a11cb, 0 0 25px #2575fc;
         }
 
         .success, .error {
@@ -84,7 +84,7 @@
         .character-counter {
             text-align: right;
             font-size: 0.9rem;
-            color: #ccc;
+            color: #ddd;
         }
     </style>
 </head>
@@ -97,6 +97,10 @@
             <option value="Bug Report">Bug Report</option>
             <option value="Feature Request">Feature Request</option>
             <option value="General Feedback">General Feedback</option>
+            <option value="Gameplay Suggestion">Gameplay Suggestion</option>
+            <option value="UI/UX Improvement">UI/UX Improvement</option>
+            <option value="Performance Issue">Performance Issue</option>
+            <option value="Other">Other</option>
         </select>
         <textarea id="feedback-message" maxlength="300" placeholder="Your Feedback (Max: 300 chars)" required></textarea>
         <div class="character-counter">300 characters remaining</div>
